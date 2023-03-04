@@ -44,7 +44,7 @@ char* replace_v2(const char* s, char c1, char c2) {
 	return result;
 }
 
-/* подсчет количества слов в строке */
+/* подсчет количества слов в строке  */
 int count_words(const char* s) {
 	/* на случай если длина строки 0 - слов тоже 0 */
 	if (!strlen(s))
