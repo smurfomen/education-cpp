@@ -20,12 +20,12 @@ public:
 		: m_data(nullptr), m_data_size(0), m_count(0)
 	{ }
 
-	vec(const vec& rhs) {
+	vec(const vec& rhs) : vec() {
 		reallocate(rhs.m_data_size);
-		std::copy(rhs.m_data, rhs.m_count, m_data);
+		std::copy(rhs.m_data, rhs.m_data + rhs.m_count, m_data);
 	}
 
-	vec(vec&& rhs) {
+	vec(vec&& rhs) : vec() {
 		std::swap(m_data, rhs.m_data);
 		std::swap(m_count, rhs.m_count);
 		std::swap(m_data_size, rhs.m_data_size);
@@ -34,8 +34,10 @@ public:
 	vec& operator=(const vec& rhs) {
 		if (this != &rhs) {
 			reallocate(rhs.m_data_size);
-			std::copy(rhs.m_data, rhs.m_count, m_data);
+			std::copy(rhs.m_data, rhs.m_data + rhs.m_count, m_data);
 		}
+
+		return *this;
 	}
 
 	vec& operator=(vec&& rhs) {
@@ -44,6 +46,8 @@ public:
 			std::swap(m_count, rhs.m_count);
 			std::swap(m_data_size, rhs.m_data_size);
 		}
+
+		return *this;
 	}
 
 	virtual ~vec() {
@@ -145,34 +149,3 @@ private:
 };
 
 
-
-
-
-#include <iostream>
-using namespace std;
-int main() {
-	{
-		vec<int> v;
-		cout << v.size() << " " << v.capacity() << endl;
-		v.push_back(1);
-		v.push_back(2);
-		cout << v.at(0) << " " << v[1] << endl;
-		cout << v.size() << " " << v.capacity() << endl;
-		cout << v.pop_front() << " " << v.pop_back() << endl;
-		cout << v.size() << " " << v.capacity() << endl;
-	}
-
-	{
-		vec<int> v = { 1, 3, 5 };
-		v.insert(2, 1);
-		v.insert(4, 3);
-		v.insert(6, 5);
-
-		cout << v.size() << endl;
-		for (int i = 0; i < v.size(); ++i) {
-			cout << v[i] << " ";
-		}
-	}
-
-	return 0;
-}
