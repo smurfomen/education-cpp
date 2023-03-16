@@ -1,12 +1,18 @@
 #include <iostream>
 using namespace std;
+#include <bitset>
+#include <string>
+template <typename T>
+string to_bin(T v) {
+    return bitset<sizeof(T) * 8>(v).to_string();
+}
 
 #if 0
-// десятичные числа
+// РґРµСЃСЏС‚РёС‡РЅС‹Рµ С‡РёСЃР»Р°
 // 32 = 3*10 + 2*1 = 32
 // 132 = 1*10*10 + 3*10 * 2*1 = 1*100 + 3*10 * 2*1
 
-// двоичные числа
+// РґРІРѕРёС‡РЅС‹Рµ С‡РёСЃР»Р°
 // 1        [1]     = 2^0
 // 10       [2]     = 2^1
 // 11       [3]     = 2^1 + 2^0
@@ -14,26 +20,26 @@ using namespace std;
 // 1111     [15]    = 2^3(8) + 2^2(4) + 2^1(2) + 2^0(1)
 // 100010   [34]    = 2^5(32) + 2^1(2)
 // 11110000 [240]   = 2^7(128) + 2^6(64) + 2^5(32) + 2^4(16)
-// 11111111 [255] (11110000 + 00001111) т.е. 240 + 15
+// 11111111 [255] (11110000 + 00001111) С‚.Рµ. 240 + 15
 
-// шестнадцатиричная система
+// С€РµСЃС‚РЅР°РґС†Р°С‚РёСЂРёС‡РЅР°СЏ СЃРёСЃС‚РµРјР°
 // 0123456789ABCDEF
 // 15  - 00001111   - 0x0F
 // 240 - 11110000   - 0xF0
 // 255 - 1111 1111  - 0xFF
-// 0100 1100 0101   - 0x4С5 
+// 0100 1100 0101   - 0x4РЎ5 
 
 
 /*
-    двоичные операторы
-    & - побитовое И      (AND)
-    | - побитовое ИЛИ    (OR)
-    ^ - побитовое ИЛИ НЕ (XOR)
-    ~ - побитовая инверсия
+    РґРІРѕРёС‡РЅС‹Рµ РѕРїРµСЂР°С‚РѕСЂС‹ 
+    & - РїРѕР±РёС‚РѕРІРѕРµ Р      (AND)
+    | - РїРѕР±РёС‚РѕРІРѕРµ РР›Р    (OR)
+    ^ - РїРѕР±РёС‚РѕРІРѕРµ РР›Р РќР• (XOR)
+    ~ - РїРѕР±РёС‚РѕРІР°СЏ РёРЅРІРµСЂСЃРёСЏ
 */
 
 /*
-    Побитовое И (&)
+    РџРѕР±РёС‚РѕРІРѕРµ Р (&)
      1 & 11 = 1
      00000001   - 1
      00000011   - 3
@@ -50,7 +56,7 @@ using namespace std;
 */
 
 /*
-    Побитовое ИЛИ OR (|)
+    РџРѕР±РёС‚РѕРІРѕРµ РР›Р OR (|)
     1 | 11 = 1
     00000001    - 1
     00000011    - 3
@@ -74,7 +80,7 @@ using namespace std;
 
 
 /*
-    XOR (ИЛИ НЕ) ^
+    XOR (РР›Р РќР•) ^
 
     1 ^ 11 = 1
     00000001    - 1
@@ -86,16 +92,16 @@ using namespace std;
 */
 
 /*
-    Инверсия (~)
+    РРЅРІРµСЂСЃРёСЏ (~) (РќР•)
     00001011
     --------
-    11110100
+    11110100 
 
 
 */
 
 /*
-    Операторы сдвига ( << и >> )
+    РћРїРµСЂР°С‚РѕСЂС‹ СЃРґРІРёРіР° ( << Рё >> )
     1 << 1 =    - 2
     00000001    - 1
     --------
@@ -111,18 +117,20 @@ using namespace std;
 */
 
 /*
-    функция, которая снимает(обнуляет) первый бит числа value,
-    сохраняя остальные биты
-    Например: value - 00101101  output - 00101100
+    С„СѓРЅРєС†РёСЏ, РєРѕС‚РѕСЂР°СЏ СЃРЅРёРјР°РµС‚(РѕР±РЅСѓР»СЏРµС‚) РїРµСЂРІС‹Р№ Р±РёС‚ С‡РёСЃР»Р° value,
+    СЃРѕС…СЂР°РЅСЏСЏ РѕСЃС‚Р°Р»СЊРЅС‹Рµ Р±РёС‚С‹ 
+    РќР°РїСЂРёРјРµСЂ: value -   00101101 
+                        11111110
+              output -  00101100
 */
 uint8_t off_first_bit(uint8_t value) {
     return value & 0b11111110;
 }
 
-/*
-    функция, которая обнуляет биты числа value, выставленные 1 в mask,
-    сохраняя остальные биты
-    Например: value 00101101, mask 00100100, output - 00001001
+/* 
+    С„СѓРЅРєС†РёСЏ, РєРѕС‚РѕСЂР°СЏ РѕР±РЅСѓР»СЏРµС‚ Р±РёС‚С‹ С‡РёСЃР»Р° value, РІС‹СЃС‚Р°РІР»РµРЅРЅС‹Рµ 1 РІ mask,
+    СЃРѕС…СЂР°РЅСЏСЏ РѕСЃС‚Р°Р»СЊРЅС‹Рµ Р±РёС‚С‹
+    РќР°РїСЂРёРјРµСЂ: value 00101101, mask 00100100, output - 00001001
                                   ~11011011
 
                                    00101101
@@ -134,21 +142,28 @@ uint8_t off_bits(uint8_t value, uint8_t mask) {
     return value & ~mask;
 }
 
+uint8_t on_bits(uint8_t value, uint8_t mask) {
+    return value | mask;
+}
+
+
+
 enum {
     STATUS_IS_OK = 1 << 0, // 0b001
-    KEY_IS_OPEN = 1 << 1, // 0b010
-    TESTS_IS_OK = 1 << 2, // 0b100
+    KEY_IS_OPEN  = 1 << 1, // 0b010
+    TESTS_IS_OK  = 1 << 2, // 0b100
 };
 
 int main()
 {
-    cout << (int)off_bits(0b00101101, 0b00100100) << endl;
-    cout << (int)off_bits(0b00101101, STATUS_IS_OK | TESTS_IS_OK /*0b101*/) << endl;
+    cout << to_bin(off_bits(0b00101101, 0b00100100)) << endl;
+    cout << to_bin(off_bits(0b00101101, STATUS_IS_OK | TESTS_IS_OK /*0b101*/)) << endl;
     return 0;
 }
 
 #endif
 
+#if 0 
 union UDigit {
     uint32_t value;
     uint8_t arr[4];
@@ -162,9 +177,10 @@ union UDigit {
     value
 
     value = 0xff
-
+    
     |0|0|0|255|
 */
+
 
 int main() {
     cout << "size of UDigit " << sizeof(UDigit) << endl;
@@ -178,3 +194,36 @@ int main() {
 
     return 0;
 }
+#endif
+
+
+#if 0
+union Byte {
+    uint8_t value;
+    struct BitField {
+        uint8_t flags  : 3;  // = 0..7
+        uint8_t ops    : 1;  // = 0..1
+        uint8_t other  : 4;  // = 0..15
+    } field;
+} b;
+
+void print() {
+    cout << "Byte::value\t\t" << to_bin(b.value) << endl;
+    cout << "Byte::BitField::flags\t" << to_bin(b.field.flags) << endl;
+    cout << "Byte::BitField::ops\t" << to_bin(b.field.ops) << endl;
+    cout << "Byte::BitField::other\t" << to_bin(b.field.other) << endl;
+    cout << "-----------------------------" << endl;
+}
+
+int main() {  
+    b.value = numeric_limits<uint8_t>::max();
+    print();
+    b.field.ops = 0;
+    print();
+    b.field.other = 0b0101;
+    print();
+    
+    return 0;
+}
+#endif
+
