@@ -27,6 +27,7 @@ int main()
     if (f) {
         cout << "File is open" << endl;
 #if 0
+        /* посимвольное чтение */
         while (!feof(f)) {
             cout << (char)fgetc(f);
         }
@@ -35,6 +36,7 @@ int main()
 
 #if 0
         char line[128];
+        /* построчное чтение */
         while (!feof(f)) {
             fgets(line, 128, f);
             cout << line;
@@ -55,10 +57,12 @@ int main()
 #if 0
 int main() {
 #if 0
+    /* w - перезапись содержимого */
     FILE* f = fopen(my_file, "w");
     if (f) {
         cout << "File is open" << endl;
 
+        /* запись буфера в файл */
         char buf[] = "Hello";
         fwrite(buf, sizeof(char), sizeof(buf), f);
 
@@ -67,6 +71,7 @@ int main() {
 #endif
 
 #if 0
+    /* а - дополнение к содержимому */
     FILE* f = fopen(my_file, "a");
 
     if (f) {
