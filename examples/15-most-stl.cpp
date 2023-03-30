@@ -444,6 +444,47 @@ int main()
 
         print_map(m);
     }
+    
+    {
+        map<string, map<char, int>> supermap = {
+            {
+                "one", {
+                            {'o', 1},
+                            {'n', 2},
+                            {'e', 3}
+                        }
+            },
+            {
+                "two", {
+                            {'t', 1},
+                            {'w', 2},
+                            {'o', 3}
+                        }
+            }
+        };
+
+        cout << "supermap one first elem pos: " <<
+            supermap["one"]['o'] << endl;
+
+        for (auto inner : supermap) {
+            cout << inner.first << " ";
+            for (auto elem : inner.second) {
+                cout << "{" << elem.first << ", " <<
+                               elem.second << "} ";
+            }
+            cout << endl;
+        }
+
+
+        int sum = 0;
+        for (auto i : m) {
+            sum += i.second;
+        }
+        cout << "sum: " << sum << endl;
+
+        int value = m['I'] + m['X'];
+        cout << "value: " << value << endl;    
+    }
 
     /* наивная реализация конвертации римской нотации в десятичную */
     {
